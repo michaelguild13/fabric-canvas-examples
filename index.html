@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Canvas Tutorials</title>
+</head>
+<body>
+
+<style>
+  canvas { border: 1px solid black; }
+</style>
+
+<canvas id="paint" width="500" height="500">
+  <h1>Your browser doesn't support canvas</h1>
+  <img src="http://farm3.static.flickr.com/2655/3864991925_26a6a5cf10_o.jpg" alt="fail" />
+</canvas>
+
+<script>
+  var canvas = document.getElementById('paint');
+  // see if canvas is supported
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    function draw () {
+      // clear canvas
+      ctx.clearRect(0,0,300,300);
+
+      // red square
+      ctx.fillStyle = "rgb(200,0,0)";
+      ctx.fillRect (10, 10, 50, 50);
+
+      // blue square
+      ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+      ctx.fillRect (30, 30, 50, 50);
+
+      // contrast square
+      ctx.fillStyle = "rgb(0,0,0)";
+      ctx.fillRect(100,100,100,100);
+      ctx.clearRect(110,110,80,80);
+      ctx.strokeRect(125,125,50,50);
+
+      // triangle
+      ctx.rotate(0);
+      ctx.beginPath();
+      ctx.fillStyle = "rgb(0,200,0)";
+      ctx.moveTo(300,300);
+      ctx.lineTo(250,250);
+      ctx.lineTo(300,200);
+      ctx.fill();
+
+      // smile
+      ctx.beginPath();
+      ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+      ctx.moveTo(110,75);
+      ctx.arc(75,75,35,0,Math.PI,false);  // Mouth (clockwise)
+      ctx.moveTo(65,65);
+      ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+      ctx.moveTo(95,65);
+      ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+      ctx.stroke();
+
+      // text
+      var time = new Date();
+      ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
+      ctx.font = "48px serif";
+      ctx.strokeText("Hello world", 250, 50);
+      // window.requestAnimationFrame(draw);
+    }
+    window.requestAnimationFrame(draw);
+  }
+</script>
+
+</body>
+</html>

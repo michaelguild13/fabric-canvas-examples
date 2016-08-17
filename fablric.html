@@ -1,0 +1,88 @@
+<html>
+<head>
+  <title>FabricJs Tutorials</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.6.3/fabric.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<style>
+  canvas { border: 1px solid black; }
+</style>
+
+<canvas id="paint" width="500" height="500">
+  <h1>Your browser doesn't support canvas</h1>
+  <img id="image" src="http://farm3.static.flickr.com/2655/3864991925_26a6a5cf10_o.jpg" alt="fail" />
+</canvas>
+
+<button id="add-hi">Add Hi</button>
+<button id="remove-hi">Remove Hi</button>
+<button id="animate-hi">Animate Hi</button>
+<button id="draw">Draw</button>
+<button id="clear">Clear</button>
+
+<script>
+
+  // objects
+  var canvas = new fabric.Canvas('paint'),
+      rectangle = new fabric.Rect({
+        width: 20, height: 30, fill: 'blue', left: 50, top: 50
+      }),
+      circle = new fabric.Circle({
+        radius: 20, fill: 'green', left: 100, top: 100
+      }),
+      triangle = new fabric.Triangle({
+        width: 20, height: 30, fill: 'blue', left: 50, top: 50
+      }),
+      text = new fabric.Text('hello, world.', {
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2
+      }),
+      imageSrc = $("#image")[0],
+      image = new fabric.Image(imageSrc, {
+        left: 100,
+        top: 100,
+        angle: 30,
+        opacity: 0.85
+      }).on('selected', function() {
+        console.log('selected a circle');
+      });;
+
+    // canvas.add(rectangle); // add object
+    // canvas.item(0); // reference fabric.Rect added earlier (first object)
+    // canvas.getObjects(); // get all objects on canvas (rect will be first and only)
+    // canvas.remove(rect); // remove previously-added fabric.Rect
+
+		// Attach it to the canvas object, then (re)display
+		// the canvas.
+		canvas.add(image);
+
+		// Events
+		$("#add-hi").click( function(){
+      canvas.add(text);
+    });
+    $("#remove-hi").click( function(){
+      canvas.remove(text);
+    });
+    $("#animate-hi").click( function(){
+      text.animate('left', 500, {
+        onChange: canvas.renderAll.bind(canvas),
+        duration: 1000,
+        easing: fabric.util.ease.easeOutBounce
+      });
+    });
+    $("#draw").click( function(){
+      console.log('draw');
+      canvas.isDrawingMode = true;
+      canvas.freeDrawingBrush.color = "red";
+      canvas.freeDrawingBrush.width = 10;
+    });
+    $("#clear").click( function(){
+      console.log('clear');
+      canvas.clear();
+    });
+</script>
+
+
+</body>
+</html>
